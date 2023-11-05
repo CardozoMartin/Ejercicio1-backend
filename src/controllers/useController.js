@@ -44,3 +44,30 @@ export const postTask = async (req, res) => {
     });
   }
 };
+
+export const putTask = async (req, res) => {
+  const {
+    body,
+    params: { id },
+  } = req;
+
+  try {
+    const action = await TaskModel.updateOne({ _id: id }, body);
+    if (action.matcheCount === 0) {
+      res.json(400).json({
+        data: null,
+        message: 'No se encontro una tarea con ese id',
+      });
+      return;
+    }
+    res.json({
+      data: null,
+      message: 'La tarea ha sido actualizado exitosamente',
+    });
+  } catch (e) {
+    res.status(500).json({
+      data: null,
+      message: 'Ocurrio un error actualizando una tarea',
+    });
+  }
+};
