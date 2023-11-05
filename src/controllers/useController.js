@@ -71,3 +71,31 @@ export const putTask = async (req, res) => {
     });
   }
 };
+
+export const deleteTask = async (req,res)=>{
+    const {
+        params: { id },
+      } = req;
+      try{
+        const action = await TaskModel.updateOne({_id : id}, {isActive : false});
+
+    if (action.matcheCount === 0) {
+        res.json(400).json({
+          data: null,
+          message: 'No hay tareas con ese id',
+        });
+        return;
+      }
+      res.json({
+        data: null,
+        message: 'La tarea se elimino con exito',
+      });
+     } catch (e) {
+        
+        res.status(500).json({
+          data: null,
+          message: 'Ocurrio un error eliminando la tarea',
+        });
+      }
+    
+}
